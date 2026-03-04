@@ -1,0 +1,72 @@
+@startuml
+left to right direction
+
+skinparam actorStyle Hollow
+together{
+"Visiteur" as visiteur
+"Adhérent standard" as adStandard
+"Adhérent premium" as adPremium
+"Biliothéquaire" as bibliothequaire
+}
+adStandard -right-|> visiteur
+adStandard <|-right- adPremium
+
+together{
+"kandle" as kandle
+"Transporteur" as transporteur
+"Banque" as banque
+}
+
+package Omnilib{
+usecase "naviguer" as naviguer
+usecase "rechercher" as rechercher
+usecase "par titre" as titre
+usecase "par auteur" as auteur
+usecase "année" as annee
+usecase "retour media" as retourMedia
+
+usecase "reserver" as reserver
+usecase "emprunter" as emprunter
+usecase "s'abonner" as abonnement
+usecase "payer" as payer
+usecase "telecharger" as telecharger
+usecase "louer" as louer
+
+usecase "ajouter media" as ajouterMedia
+usecase "valider retour" as validerRetour
+
+usecase "livraison" as livraison	
+
+}
+
+visiteur -- naviguer
+visiteur -- rechercher
+
+rechercher <|-- titre
+rechercher <|-- auteur
+rechercher <|-- annee
+
+adStandard -- reserver
+adStandard -- emprunter
+adStandard -- abonnement
+adStandard -- retourMedia
+abonnement -down-..> payer : include
+
+adPremium -- louer
+adPremium -- telecharger
+
+bibliothequaire --- validerRetour
+bibliothequaire --- ajouterMedia
+
+
+retourMedia ...>validerRetour : include
+
+louer -- kandle
+telecharger -- kandle
+
+reserver <... livraison : extends
+livraison -- transporteur
+livraison .> payer : include
+payer -- banque
+
+@enduml
