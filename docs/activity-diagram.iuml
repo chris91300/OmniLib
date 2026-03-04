@@ -1,0 +1,21 @@
+@startuml
+start
+
+:Adherent;
+
+repeat :naviguer;
+repeat
+	:reserver;
+backward : s'authentifer;
+repeat while(authentifier?) is (non) not (oui)
+repeat while(pénalité?) is (oui) not (non)
+
+if(livraison?) then (non)
+stop
+else (oui)
+:payer;
+:transporteur;
+endif
+
+stop
+@enduml
